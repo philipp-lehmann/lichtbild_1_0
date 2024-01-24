@@ -1,8 +1,113 @@
-html, body {
+html,
+body {
+    width: 100vw;
+    height: 100vh;
     margin: 0;
     padding: 0;
-  }
-  canvas {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+.type {
+    position: absolute;
+    height: 100vh;
+    width: 30vw;
+    background-color: rgba(40,30,30,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    position: absolute;
+    background-color: rgba(140,30,30,0.8);
+    width: 100vh;
+    height: 30vw;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    white-space: nowrap;
+}
+
+h1 {
+    font-size: calc(min(20vw, 20vh));
+    font-weight: 900;
+    margin: 0;
+}
+
+
+
+canvas {
     display: block;
-  }
-  
+}
+
+.p5container {
+    z-index: 999;
+    opacity: 0.4;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    transform: translate(0, 90%);
+}
+.p5container:hover {
+    opacity: 1.0;
+    transform: translate(0, 0%);
+}
+
+
+.svgOutput {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    perspective: 1000px;
+}
+
+.svgOutput svg {
+    --opacity-step: 0.1; /* Opacity decrement per step */
+    --translation-step: 50px; /* Z-axis translation increment per step */
+
+    width: 80vw;
+    height: auto; /* Maintain aspect ratio while resizing */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: calc(1 - var(--opacity-step));
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.svgOutput svg:nth-child(1) {
+    transform: translate3d(-50%, -50%, -50px);
+    opacity: 1.0;
+}
+
+.svgOutput svg:nth-child(2) {
+    transform: translate3d(-50%, -50%, -100px);
+    opacity: 0.8;
+}
+
+.svgOutput svg:nth-child(3) {
+    transform: translate3d(-50%, -50%, -150px);
+    opacity: 0.65;
+}
+
+.svgOutput svg:nth-child(4) {
+    transform: translate3d(-50%, -50%, -200px);
+    opacity: 0.5;
+}
+
+.svgOutput svg:nth-child(5) {
+    transform: translate3d(-50%, -50%, -250px);
+    opacity: 0.3;
+}
+
+.svgOutput svg:nth-child(6) {
+    transform: translate3d(-50%, -50%, -300px);
+    opacity: 0.15;
+}
+
+.svgOutput svg:nth-child(n + 7) {
+    transform: translate3d(-50%, -50%, -350px);
+    opacity: 0.0;
+}
+

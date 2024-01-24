@@ -109,7 +109,7 @@ function getBoxes(detections) {
             currentFaceImg = getCroppedImage(box);
             currentEdgeImg = applyEdgeDetection(currentFaceImg);
             currentSVGData = convertToSVGPath(currentEdgeImg);
-            appendSVGToContainer(currentSVGData, 'svgOutput', currentEdgeImg.width, currentEdgeImg. height);
+            appendSVGToContainer(currentSVGData, 'svgOutput', currentEdgeImg.width, currentEdgeImg.height);
         }
 
         newBoxes.push(box);
@@ -158,7 +158,7 @@ function applyEdgeDetection(img) {
     // Convert OpenCV Mat back to p5.js image
     let edgeImg = createImage(edges.cols, edges.rows);
     cv.imshow(edgeImg.canvas, edges);
-    
+
     // Release Mats to free memory
     src.delete();
     gray.delete();
@@ -197,7 +197,7 @@ function convertToSVGPath(img) {
                 let x = contour.data32S[i];
                 let y = contour.data32S[i + 1];
                 svgPathData += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
-                console.log(`Contour ${j} Point ${i/2}: x = ${x}, y = ${y}`);
+                console.log(`Contour ${j} Point ${i / 2}: x = ${x}, y = ${y}`);
             }
         } else {
             for (let i = 0; i < contour.data32S.length; i += 2) {
@@ -206,7 +206,7 @@ function convertToSVGPath(img) {
                 svgPathData += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
             }
         }
-        
+
         svgPathData += 'Z ';
     }
 
@@ -227,17 +227,33 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     // Set SVG dimensions to match the edgeImg
     svgElement.setAttribute("width", w);
     svgElement.setAttribute("height", h);
+    svgElement.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    svgElement.setAttribute("viewBox", `0 0 ${w} ${h}`);
 
     // Create a path element and set the path data
     let pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
     pathElement.setAttribute("d", pathData);
     pathElement.setAttribute("fill", "none");
-    pathElement.setAttribute("stroke", "black"); // You can customize stroke color
+
+    // Get a random hue value between 0 and 360
+    const randomHue = Math.floor(Math.random() * 361);
+    const randomColor = `hsl(${randomHue}, 80%, 80%)`;
+    pathElement.setAttribute("stroke", randomColor);
 
     // Append the path to the SVG element
     svgElement.appendChild(pathElement);
 
-    // Append the SVG element to the specified container
+    // Get the container
     let container = document.getElementById(containerId);
-    container.appendChild(svgElement);
+
+    // Check if there are more than 10 elements before appending
+    if (container.children.length >= 6) {
+        // Remove the last child if there are 10 or more elements
+        container.removeChild(container.lastChild);
+    }
+
+    // Append the SVG element to the specified container at the beginning
+    svgElement.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    container.insertBefore(svgElement, container.firstChild);
+
 }
