@@ -139,7 +139,12 @@ function isSimilar(box1, box2) {
 }
 
 function getCroppedImage(box) {
-    let img = video.get(box.x, box.y, box.width, box.height);
+    let border = 50;
+    let left = max(box.x - border, 0);
+    let top = max(box.y - border, 0);
+    let right = box.width + 2 * border;
+    let bottom = box.height + 2 * border;
+    let img = video.get(left, top, right, bottom);
     return img;
 }
 
@@ -153,7 +158,7 @@ function applyEdgeDetection(img) {
 
     // Apply Canny edge detection
     let edges = new cv.Mat();
-    cv.Canny(gray, edges, 50, 150, 3, false);
+    cv.Canny(gray, edges, 180, 150, 3, false);
 
     // Convert OpenCV Mat back to p5.js image
     let edgeImg = createImage(edges.cols, edges.rows);
