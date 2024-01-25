@@ -178,33 +178,22 @@ function convertToSVGPath(img) {
 
     // Apply Canny edge detection
     let edges = new cv.Mat();
-    cv.Canny(gray, edges, 50, 150, 3, false);
+    cv.Canny(gray, edges, 50, 120, 3, false);
 
     // Find contours in the edge image
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
     cv.findContours(edges, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-    console.log("Number of Paths Found:", contours.size());
 
     // Convert all contours to SVG path data
     let svgPathData = '';
     for (let j = 0; j < contours.size(); ++j) {
         let contour = contours.get(j);
 
-        if (j < 5) { // Log points only for the first 5 contours
-            console.log(`Contour ${j}, Number of Points: ${contour.data32S.length / 2}`);
-            for (let i = 0; i < contour.data32S.length; i += 2) {
-                let x = contour.data32S[i];
-                let y = contour.data32S[i + 1];
-                svgPathData += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
-                console.log(`Contour ${j} Point ${i / 2}: x = ${x}, y = ${y}`);
-            }
-        } else {
-            for (let i = 0; i < contour.data32S.length; i += 2) {
-                let x = contour.data32S[i];
-                let y = contour.data32S[i + 1];
-                svgPathData += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
-            }
+        for (let i = 0; i < contour.data32S.length; i += 2) {
+            let x = contour.data32S[i];
+            let y = contour.data32S[i + 1];
+            svgPathData += (i === 0 ? 'M' : 'L') + x + ' ' + y + ' ';
         }
 
         svgPathData += 'Z ';
@@ -239,6 +228,8 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     const randomHue = Math.floor(Math.random() * 361);
     const randomColor = `hsl(${randomHue}, 80%, 80%)`;
     pathElement.setAttribute("stroke", randomColor);
+    pathElement.setAttribute("stroke-width", 3);
+
 
     // Append the path to the SVG element
     svgElement.appendChild(pathElement);
