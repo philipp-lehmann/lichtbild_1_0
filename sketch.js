@@ -190,10 +190,24 @@ function convertToSVGPath(img) {
     let hierarchy = new cv.Mat();
     cv.findContours(edges, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
-    // Convert all contours to SVG path data
-    let svgPathData = '';
+    // Apply contour simplification with adjusted epsilon
+    let epsilon = 1; // Adjust the epsilon value as needed
+    let simplifiedContours = [];
+
     for (let j = 0; j < contours.size(); ++j) {
-        let contour = contours.get(j);
+        let originalContour = contours.get(j);
+        let simplifiedContour = new cv.Mat();
+        cv.approxPolyDP(originalContour, simplifiedContour, epsilon, true);
+        simplifiedContours.push(simplifiedContour);
+    }
+
+    console.log('Number of original contours:', contours.size());
+    console.log('Number of simplified contours:', simplifiedContours.length);
+
+    // Convert all simplified contours to SVG path data
+    let svgPathData = '';
+    for (let j = 0; j < simplifiedContours.length; ++j) {
+        let contour = simplifiedContours[j];
 
         for (let i = 0; i < contour.data32S.length; i += 2) {
             let x = contour.data32S[i];
@@ -202,6 +216,8 @@ function convertToSVGPath(img) {
         }
 
         svgPathData += 'Z ';
+
+        contour.delete();
     }
 
     // Release Mats to free memory

@@ -13,7 +13,6 @@ body {
     position: absolute;
     height: 100vh;
     width: 30vw;
-    background-color: rgba(40,30,30,0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +20,6 @@ body {
 
 .title {
     position: absolute;
-    background-color: rgba(140,30,30,0.8);
     width: 100vh;
     height: 30vw;
     transform: rotate(-90deg);
@@ -83,27 +81,27 @@ canvas {
 
 .svgOutput svg:nth-child(2) {
     transform: translate3d(-50%, -50%, -100px);
-    opacity: 0.8;
+    opacity: 0.3;
 }
 
 .svgOutput svg:nth-child(3) {
     transform: translate3d(-50%, -50%, -150px);
-    opacity: 0.65;
+    opacity: 0.25;
 }
 
 .svgOutput svg:nth-child(4) {
     transform: translate3d(-50%, -50%, -200px);
-    opacity: 0.5;
+    opacity: 0.2;
 }
 
 .svgOutput svg:nth-child(5) {
     transform: translate3d(-50%, -50%, -250px);
-    opacity: 0.3;
+    opacity: 0.15;
 }
 
 .svgOutput svg:nth-child(6) {
     transform: translate3d(-50%, -50%, -300px);
-    opacity: 0.15;
+    opacity: 0.1;
 }
 
 .svgOutput svg:nth-child(n + 7) {
