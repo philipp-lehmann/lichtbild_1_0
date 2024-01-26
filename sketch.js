@@ -1,4 +1,5 @@
 let video, faceapi;
+let intervalId = null;
 let boxes = [];
 let boxId = 0;
 let prevBoxes = [];
@@ -241,6 +242,25 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     svgElement.setAttribute("preserveAspectRatio", "xMidYMid meet");
     svgElement.setAttribute("viewBox", `0 0 ${w} ${h}`);
 
+    // Define a glow filter inside <defs>
+    let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    let filter = document.createElementNS("http://www.w3.org/2000/svg", "filter");
+    filter.setAttribute("id", "glow");
+    let feGaussianBlur = document.createElementNS("http://www.w3.org/2000/svg", "feGaussianBlur");
+    feGaussianBlur.setAttribute("stdDeviation", "2.5");
+    feGaussianBlur.setAttribute("result", "coloredBlur");
+    let feMerge = document.createElementNS("http://www.w3.org/2000/svg", "feMerge");
+    let feMergeNode1 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode");
+    feMergeNode1.setAttribute("in", "coloredBlur");
+    let feMergeNode2 = document.createElementNS("http://www.w3.org/2000/svg", "feMergeNode");
+    feMergeNode2.setAttribute("in", "SourceGraphic");
+    feMerge.appendChild(feMergeNode1);
+    feMerge.appendChild(feMergeNode2);
+    filter.appendChild(feGaussianBlur);
+    filter.appendChild(feMerge);
+    defs.appendChild(filter);
+    svgElement.appendChild(defs);
+
     // Create a path element and set the path data
     let pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
     pathElement.setAttribute("d", pathData);
@@ -251,7 +271,10 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     const randomHue = Math.floor(Math.random() * 361);
     const randomColor = `hsl(${randomHue}, 80%, 80%)`;
     pathElement.setAttribute("stroke", randomColor);
-    pathElement.setAttribute("stroke-width", 3);
+    pathElement.setAttribute("stroke-width", 2);
+    pathElement.setAttribute("stroke-linecap", "round");
+    pathElement.setAttribute("stroke-linejoin", "round");
+    pathElement.setAttribute("filter", "url(#glow)");
 
 
     // Append the path to the SVG element
