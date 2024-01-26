@@ -1,58 +1,65 @@
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    src: local('Inter'), local('Inter-Regular'),
+        url('fonts/Inter-VariableFont_slnt,wght.ttf') format('truetype');
+}
+
+/* HTML */
 html,
 body {
-    width: 100vw;
-    height: 100vh;
+    width: 1080px;
+    height: 1920px;
     margin: 0;
     padding: 0;
     background-color: #000;
     color: #fff;
     font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    line-height: 0.95;
+    letter-spacing: 1.25;
+    overflow: hidden;
 }
 
+
+/* TYPO */
 .type {
+    z-index: 10;
     position: absolute;
-    height: 100vh;
-    width: 30vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
-.title {
-    position: absolute;
-    width: 100vh;
-    height: 30vw;
-    transform: rotate(-90deg);
-    transform-origin: center;
-    white-space: nowrap;
+.type object {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
 }
 
-h1 {
-    font-size: calc(min(20vw, 20vh));
-    font-weight: 900;
-    margin: 0;
-}
-
-
-
+/* P5JS */
 canvas {
     display: block;
 }
 
 .p5container {
     z-index: 999;
-    opacity: 0.4;
+    opacity: 0.0;
     position: fixed;
     bottom: 0;
     right: 0;
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     transform: translate(0, 90%);
 }
+
 .p5container:hover {
     opacity: 1.0;
     transform: translate(0, 0%);
 }
-
 
 .svgOutput {
     position: absolute;
@@ -61,12 +68,45 @@ canvas {
     perspective: 1000px;
 }
 
-.svgOutput svg {
-    --opacity-step: 0.1; /* Opacity decrement per step */
-    --translation-step: 50px; /* Z-axis translation increment per step */
+.svgOutput0 {
+    left: 7.5%;
+    top: 17%;
+    width: 55vw;
+    height: 55vw;
+}
 
-    width: 80vw;
-    height: auto; /* Maintain aspect ratio while resizing */
+.svgOutput1 {
+    left: 46%;
+    top: 6%;
+    width: 35vw;
+    height: 35vw;
+}
+
+.svgOutput2 {
+    left: -15%;
+    top: -4%;
+    width: 55vw;
+    height: 55vw;
+}
+
+.svgOutput3 {
+    left: 75%;
+    top: 41.5%;
+    width: 35vw;
+    height: 35vw;
+}
+
+.svgOutput4 {
+    left: -7.5%;
+    top: 80%;
+    width: 55vw;
+    height: 55vw;
+}
+
+
+.svgOutput svg {
+    width: 100%;
+    height: auto;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -109,3 +149,19 @@ canvas {
     opacity: 0.0;
 }
 
+/* SVG */
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Apply the animation to the path elements */
+.animated-path {
+    stroke-dasharray: 1000;
+    /* Set an appropriate value based on the length of your paths */
+    stroke-dashoffset: 1000;
+    /* Set the same value as dasharray to hide the path initially */
+    animation: draw 2s ease forwards;
+    /* Adjust the duration (2s in this example) as needed */
+}

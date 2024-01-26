@@ -5,6 +5,7 @@ let prevBoxes = [];
 let currentFaceImg = null;
 let currentEdgeImg = null;
 let currentSVGData = null;
+let currentSVGContainer = 0;
 
 
 currentFaceImg = null;
@@ -244,6 +245,7 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     let pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
     pathElement.setAttribute("d", pathData);
     pathElement.setAttribute("fill", "none");
+    pathElement.classList.add("animated-path");
 
     // Get a random hue value between 0 and 360
     const randomHue = Math.floor(Math.random() * 361);
@@ -256,7 +258,10 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     svgElement.appendChild(pathElement);
 
     // Get the container
-    let container = document.getElementById(containerId);
+    let targetContainer = containerId + currentSVGContainer;
+    console.log(targetContainer);
+    let container = document.getElementById(targetContainer);
+    currentSVGContainer = (currentSVGContainer + 1) % 5;
 
     // Check if there are more than 10 elements before appending
     if (container.children.length >= 6) {
