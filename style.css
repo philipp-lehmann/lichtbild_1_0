@@ -24,7 +24,7 @@ body {
 
 /* TYPO */
 .type {
-    z-index: 10;
+    z-index: 99;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -70,10 +70,10 @@ canvas {
 
 .svgOutput0 {
     z-index: 50;
-    left: 7.5%;
-    top: 17%;
-    width: 55vw;
-    height: 55vw;
+    left: -7vh;
+    top: -7vh;
+    width: 114vh;
+    height: 114vh;
 }
 
 .svgOutput1 {

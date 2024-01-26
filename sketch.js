@@ -271,7 +271,7 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     const randomHue = Math.floor(Math.random() * 361);
     const randomColor = `hsl(${randomHue}, 80%, 80%)`;
     pathElement.setAttribute("stroke", randomColor);
-    pathElement.setAttribute("stroke-width", 2);
+    pathElement.setAttribute("stroke-width", 1);
     pathElement.setAttribute("stroke-linecap", "round");
     pathElement.setAttribute("stroke-linejoin", "round");
     pathElement.setAttribute("filter", "url(#glow)");
@@ -284,10 +284,10 @@ function appendSVGToContainer(pathData, containerId, w, h) {
     let targetContainer = containerId + currentSVGContainer;
     console.log(targetContainer);
     let container = document.getElementById(targetContainer);
-    currentSVGContainer = (currentSVGContainer + 1) % 5;
+    currentSVGContainer = (currentSVGContainer + 1) % 1;
 
     // Check if there are more than 10 elements before appending
-    if (container.children.length >= 6) {
+    if (container.children.length >= 1) {
         // Remove the last child if there are 10 or more elements
         container.removeChild(container.lastChild);
     }
